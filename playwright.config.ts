@@ -34,7 +34,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'off',
-    headless: false,
+    headless: !!process.env.CI,
+
 
     httpCredentials : {
       username :'admin',
