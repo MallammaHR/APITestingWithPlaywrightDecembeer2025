@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 
-const TOKEN = 'a5409f7c365906597bdc6277a52749a244e3c4dce7d97141bf65b0cf72329105';
+const TOKEN = '4d1a5b3f15cb1b87d9be3412b697c0a3ca30af72bb8ab33ea7591f8e1ae07f8a';
 
 
 //creating new user

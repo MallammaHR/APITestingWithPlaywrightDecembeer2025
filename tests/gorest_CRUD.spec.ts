@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 
-const TOKEN = '4d2fb1736490b6615e8aa6291974f14e287fe055628c53eb8b4534753e54dd29';
+const TOKEN = '4d1a5b3f15cb1b87d9be3412b697c0a3ca30af72bb8ab33ea7591f8e1ae07f8a';
 const BASE_URL='https://gorest.co.in/public/v2/users';
 
 //common headres

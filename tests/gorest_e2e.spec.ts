@@ -1,6 +1,6 @@
 import { test, expect, APIResponse } from '@playwright/test';
 
-const TOKEN = '11a9935e1b0138db3c9d4a9d738d7b0de43a58e6d125f16c69e4680f52bc873c';
+const TOKEN = '4d1a5b3f15cb1b87d9be3412b697c0a3ca30af72bb8ab33ea7591f8e1ae07f8a';
 const BASE_URL = 'https://gorest.co.in/public/v2/users';
 
 const headers = {
