@@ -1,10 +1,10 @@
 import { test, expect, APIResponse } from '@playwright/test';
 
 // Get API token from environment variables
-const API_TOKEN = process.env.API_TOKEN;  
-// if (!API_TOKEN) {
-//     throw new Error("API_TOKEN environment variable is not set");
-// };
+const API_TOKEN = process.env.API_TOKEN as string;
+
+
+
 
 const BASE_URL = 'https://gorest.co.in/public/v2/users';
 
@@ -14,10 +14,16 @@ const headers = {
     'Accept': 'application/json'
 };
 
+// Enhanced logging function
 function logResponse(title: string, response: APIResponse) {
     console.log(`\n==================== ${title} ====================`);
     console.log("STATUS:", response.status(), response.statusText());
     console.log("HEADERS:", response.headers());
+
+    // Log response body for debugging
+    response.text().then(body => {
+        console.log("BODY:", body);
+    });
 }
 
 test('e2e crud flow test @api', async ({ request }) => {
@@ -34,7 +40,7 @@ test('e2e crud flow test @api', async ({ request }) => {
     const responsePOST = await request.post(BASE_URL, { headers, data: requestBody });
     logResponse("POST RESPONSE", responsePOST);
 
-    expect(responsePOST.status()).toBe(201);
+    expect(responsePOST.status()).toBe(201);  // Assert successful creation
     const createdUser = await responsePOST.json();
     console.log("POST Body:", createdUser);
 
@@ -45,7 +51,7 @@ test('e2e crud flow test @api', async ({ request }) => {
     const responseGET = await request.get(`${BASE_URL}/${userID}`, { headers });
     logResponse("GET RESPONSE", responseGET);
 
-    expect(responseGET.status()).toBe(200);
+    expect(responseGET.status()).toBe(200);  // Assert successful retrieval
     console.log("GET Body:", await responseGET.json());
 
     console.log('============================PUT-CALL==============================================');
@@ -55,6 +61,7 @@ test('e2e crud flow test @api', async ({ request }) => {
         status: 'inactive'
     };
 
+    console.log("API_TOKEN:", process.env.API_TOKEN);
     const responsePUT = await request.put(`${BASE_URL}/${userID}`, { headers, data: updateBody });
     logResponse("PUT RESPONSE", responsePUT);
 
@@ -66,13 +73,15 @@ test('e2e crud flow test @api', async ({ request }) => {
     const responseDELETE = await request.delete(`${BASE_URL}/${userID}`, { headers });
     logResponse("DELETE RESPONSE", responseDELETE);
 
-    expect(responseDELETE.status()).toBe(204);
+    expect(responseDELETE.status()).toBe(204);  // Assert no content after delete
 
     console.log('============================GET-AFTER-DELETE======================================');
 
     const responseGETAfterDelete = await request.get(`${BASE_URL}/${userID}`, { headers });
     logResponse("GET AFTER DELETE RESPONSE", responseGETAfterDelete);
 
-    expect(responseGETAfterDelete.status()).toBe(404);
+    expect(responseGETAfterDelete.status()).toBe(404);  // Assert not found after deletion
     console.log("GET After Delete Body:", await responseGETAfterDelete.json());
+
+
 });
