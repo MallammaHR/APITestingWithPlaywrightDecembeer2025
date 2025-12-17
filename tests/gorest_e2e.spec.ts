@@ -1,10 +1,15 @@
 import { test, expect, APIResponse } from '@playwright/test';
 
-const TOKEN = '4d1a5b3f15cb1b87d9be3412b697c0a3ca30af72bb8ab33ea7591f8e1ae07f8a';
+// Get API token from environment variables
+const API_TOKEN = process.env.API_TOKEN;  
+// if (!API_TOKEN) {
+//     throw new Error("API_TOKEN environment variable is not set");
+// };
+
 const BASE_URL = 'https://gorest.co.in/public/v2/users';
 
 const headers = {
-    'Authorization': `Bearer ${TOKEN}`,
+    'Authorization': `Bearer ${API_TOKEN}`,
     'Content-Type': 'application/json',
     'Accept': 'application/json'
 };
@@ -15,9 +20,7 @@ function logResponse(title: string, response: APIResponse) {
     console.log("HEADERS:", response.headers());
 }
 
-
 test('e2e crud flow test @api', async ({ request }) => {
-    
 
     console.log('==============================POST-CALL============================================');
 
@@ -37,7 +40,6 @@ test('e2e crud flow test @api', async ({ request }) => {
 
     const userID = createdUser.id;
 
-
     console.log('==============================GET-CALL============================================');
 
     const responseGET = await request.get(`${BASE_URL}/${userID}`, { headers });
@@ -45,7 +47,6 @@ test('e2e crud flow test @api', async ({ request }) => {
 
     expect(responseGET.status()).toBe(200);
     console.log("GET Body:", await responseGET.json());
-
 
     console.log('============================PUT-CALL==============================================');
 
@@ -60,14 +61,12 @@ test('e2e crud flow test @api', async ({ request }) => {
     expect(responsePUT.status()).toBe(200);
     console.log("PUT Body:", await responsePUT.json());
 
-
     console.log('============================DELETE-CALL============================================');
 
     const responseDELETE = await request.delete(`${BASE_URL}/${userID}`, { headers });
     logResponse("DELETE RESPONSE", responseDELETE);
 
     expect(responseDELETE.status()).toBe(204);
-
 
     console.log('============================GET-AFTER-DELETE======================================');
 
