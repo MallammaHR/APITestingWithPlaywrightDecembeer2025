@@ -1,51 +1,47 @@
-import{test,expect} from '@playwright/test';
-import { request } from 'http';
-import {JSONPath} from 'jsonpath-plus';
-//const result = JSONPath({path: '...', json});
+import { test, expect } from '@playwright/test';
+import { JSONPath } from 'jsonpath-plus';
 
-const BASE_URL ='https://fakestoreapi.com/products';
-const headers = {
-    'Accept':'application/json',
-    'Content-Type':'application/json'
-};
+// Base URL of the API
+const BASE_URL = 'https://fakestoreapi.com/products';
 
-test('GET-all the products test',  {
-    tag: ['@api', '@get', '@products']
-  },async({request})=>{
+test(
+  'GET-all the products test',
+  { tag: ['@api', '@get', '@products'] },
+  async ({ request }) => {
 
-   const requestGET= await request.get(BASE_URL,{
-        headers:{}});
-    expect(requestGET.status()).toBe(200);
-    const data=await requestGET.json();
-    const jsonData=JSON.stringify(data,null,2);
-    //console.log('The products response is : '+jsonData);
+    // Send GET request with proper headers
+    const response = await request.get(BASE_URL, {
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Playwright-API-Test'
+}
 
+    });
 
-    //title os the all the products
-    const titleOfAllProduct = JSONPath({path: '$[*].title', json:data});
-    console.log('The titles os the Product is : '+JSON.stringify(titleOfAllProduct, null, 2));
+    // Assert response status
+    expect(response.status()).toBe(200);
 
-    //id's of the product
-    const idsAlProduct = JSONPath({path:'$[*].id',json:data});
-    console.log('The id of all the product is : '+idsAlProduct);//id's are number array
+    // Parse JSON response
+    const data = await response.json();
 
-    //ratings and rate
-    const rating =JSONPath({path:'$[*].rating',json:data});
-    console.log('The ratings of the all the product is : '+JSON.stringify(rating,null,2));
+    // Extract product titles
+    const titles = JSONPath({ path: '$[*].title', json: data });
+    console.log('Product titles:', JSON.stringify(titles, null, 2));
 
-    ///ratings and rate
-    const ratingsrate =JSONPath({path:'$[*].rating',json:data});
-    console.log('The ratings of the all the product is : '+JSON.stringify(ratingsrate,null,2));
+    // Extract product IDs
+    const ids = JSONPath({ path: '$[*].id', json: data });
+    console.log('Product IDs:', ids);
 
-    //category=jewelry
-    const category = JSONPath({path:`$[?(@.category=='jewelery')]`,json:data});
-    console.log('The category=jewelery products are  : '+JSON.stringify(category,null,2));
+    // Extract ratings
+    const ratings = JSONPath({ path: '$[*].rating', json: data });
+    console.log('Product ratings:', JSON.stringify(ratings, null, 2));
 
-     //category=jewelry.title
-    const category_title = JSONPath({path:`$[?(@.category=='jewelery')].title`,json:data});
-    console.log('The category=jewelery products are  : '+JSON.stringify(category_title,null,2));
-});
+    // Extract all jewelery products
+    const jeweleryProducts = JSONPath({ path: `$[?(@.category=='jewelery')]`, json: data });
+    console.log('Jewelery products:', JSON.stringify(jeweleryProducts, null, 2));
 
-
-
-
+    // Extract titles of jewelery products
+    const jeweleryTitles = JSONPath({ path: `$[?(@.category=='jewelery')].title`, json: data });
+    console.log('Jewelery product titles:', JSON.stringify(jeweleryTitles, null, 2));
+  }
+);
