@@ -9,7 +9,9 @@ const headers = {
     'Content-Type':'application/json'
 };
 
-test('GET-all the products test',async({request})=>{
+test('GET-all the products test',  {
+    tag: ['@api', '@get', '@products']
+  },async({request})=>{
 
    const requestGET= await request.get(BASE_URL,{
         headers:{}});
