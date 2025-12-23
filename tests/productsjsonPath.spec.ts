@@ -6,7 +6,8 @@ const BASE_URL = 'https://fakestoreapi.com/products';
 
 test(
   'GET-all the products test',
-  { tag: ['@api', '@get', '@products'] },
+  { tag: ['@api'
+  ] },
   async ({ request }) => {
 
     // Send GET request with proper headers
