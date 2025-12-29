@@ -35,12 +35,14 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'off',
     headless: !!process.env.CI,
-
-
-    httpCredentials : {
-      username :'admin',
-      password:'admin'
-    }
+        baseURL: 'https://gorest.co.in/public/v2',
+    extraHTTPHeaders: {
+      Accept: 'application/json',
+    },   
+    // httpCredentials : {
+    //   username :'admin',
+    //   password:'admin'
+    // }
     //storageState:'auth/Admin.json',//Resuse logic for all the test
   },
 

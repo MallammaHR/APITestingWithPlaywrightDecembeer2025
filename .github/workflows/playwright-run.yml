@@ -10,6 +10,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      GOREST_TOKEN: ${{ secrets.GOREST_TOKEN }}
+
     steps:
       # 1️⃣ Checkout repo
       - name: Checkout repo
