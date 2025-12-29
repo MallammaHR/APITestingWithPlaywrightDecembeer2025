@@ -33,12 +33,16 @@ export default defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'off',
+  
     headless: !!process.env.CI,
-        baseURL: 'https://gorest.co.in/public/v2',
+
+    baseURL: 'https://gorest.co.in/public/v2',
+
+
     extraHTTPHeaders: {
       Accept: 'application/json',
-    },   
+    }, 
+    trace: 'off',
     // httpCredentials : {
     //   username :'admin',
     //   password:'admin'
